@@ -1,0 +1,19 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+horizon_routes:
+  resource: ../src/Controller/Account
+  type: annotation
+  prefix: /account
+
+game_routes:
+  resource: ../src/Controller/Game
+  type: annotation
+  prefix: /game
+
+# Virtual route without controller - is handled internally in security.
+# See security.yaml firewalls.main.logout.path
+app_logout:
+  path: /logout
+  methods: GET

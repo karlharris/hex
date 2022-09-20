@@ -1,0 +1,20 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}Test{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('game') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('game') }}
+{% endblock %}
+
+{% block page_content %}
+    <div id="control">
+        {{ include('components/control.html.twig') }}
+    </div>
+    <div id="field">
+        {{ include('components/field.html.twig') }}
+    </div>
+{% endblock %}

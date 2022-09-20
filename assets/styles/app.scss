@@ -1,0 +1,27 @@
+@import'../styles/components/navigation.scss';
+
+@font-face {
+    font-family: 'Allerta Stencil';
+    src:
+        url('../fonts/AllertaStencil-Regular.ttf') format('truetype'),
+        url('../fonts/allertastencil-regular-webfont.woff2') format('woff2'),
+        url('../fonts/allertastencil-regular-webfont.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: 'Allerta Stencil', sans-serif;
+}
+
+body {
+    background: url(../static/white.jpg);
+    height: 100%;
+    #page-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 8fr;
+        grid-column-gap: 0;
+        grid-row-gap: 0;
+    }
+}

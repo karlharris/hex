@@ -1,0 +1,10 @@
+{% block navigation %}
+    <nav>
+        <a class="home{% if app.request.attributes.get('_route') == 'app_index' %} active{% endif %}" href="{{ path('app_index') }}">Home</a>
+        <a class="{% if app.request.attributes.get('_route') == 'app_dashboard' %}active{% endif %}" href="{{ path('app_dashboard') }}">Dashboard</a>
+        <a class="{% if app.request.attributes.get('_route') == 'app_test' %}active{% endif %}" href="{{ path('app_test') }}">Game</a>
+        <a class="{% if app.request.attributes.get('_route') == 'app_settings' %}active{% endif %}" href="{{ path('app_settings') }}">Settings</a>
+        <a href="{{ path('app_logout') }}">Logout</a>
+        <div class="animation start-home"></div>
+    </nav>
+{% endblock %}

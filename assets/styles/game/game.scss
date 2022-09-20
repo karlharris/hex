@@ -1,0 +1,93 @@
+/** deviating grid structure */
+body {
+  background: #282828;
+  #page-wrapper {
+    display: grid;
+    grid-template-columns: 4fr 6fr;
+    grid-template-rows: 1fr 8fr;
+    grid-column-gap: 0;
+    grid-row-gap: 0;
+    #page-header { grid-area: 1 / 1 / 2 / 3; }
+    #control { grid-area: 2 / 1 / 3 / 2; }
+    #field { grid-area: 2 / 2 / 3 / 3; }
+  }
+}
+
+/** deviating navigation styling */
+nav {
+  background-color: rgba(40, 40, 40, 0.5);
+  border: rgba(238, 238, 238, 0.1) 1px solid;
+  a {
+    color: rgb(238, 238, 238);
+    &.active {
+      &:not(.home, :hover) {
+        background: rgba(238,238,238, 0.5);
+      }
+    }
+  }
+}
+
+/** current field info styling */
+#field-info {
+  p {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    padding: 25px 0 0 0;
+    font-size: 16px;
+    color: #eee;
+    &#field-info-id {
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+      padding: 25px 0;
+      font-size: 45px;
+      color: #eee;
+    }
+    &#field-info-owner {
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+      padding: 25px 0 0 0;
+      font-size: 16px;
+      color: #eee;
+    }
+  }
+}
+/** current field actions styling */
+div#field-actions {
+  max-width: 300px;
+  margin: 50px auto 0 auto;
+  .action-type {
+    background: #eee;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    position: relative;
+    border-radius: 30px;
+    box-shadow: 0 0 7px #aaa;
+    color: #282828;
+    transition: all .5s ease 0s;
+    float: left;
+    margin-left: 15px;
+    &:hover {
+      cursor: move;
+      background: #282828;
+      color: #eee;
+      box-shadow: 0 0 7px #838383;
+    }
+  }
+}
+i.ra {
+  font-family: RPGAwesome, serif;
+  position: absolute;
+  top: 10px;
+  left: 9px;
+  &.ra-axe {
+    top: 9px;
+    left: 11px;
+  }
+  &.ra-crossbow {
+    left: 10px;
+  }
+}

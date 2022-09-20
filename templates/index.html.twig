@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('account') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('account') }}
+{% endblock %}
+
+{% block body %}
+    {% block page_wrapper %}
+        <div id="page-wrapper">
+            {% block page_header %}
+                <div id="page-header">
+                    {% block navigation %}
+                        {{ include('components/navigation.html.twig') }}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+
+            {% block page_content %}
+                <div id="page-content">
+                    {% block page_inner_content %}
+                        <h1>Index</h1>
+                    {% endblock %}
+                </div>
+            {% endblock %}
+        </div>
+    {% endblock %}
+{% endblock %}

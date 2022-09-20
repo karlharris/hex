@@ -1,0 +1,23 @@
+{
+  "build/app.css": "http://localhost:8080/build/app.css",
+  "build/app.js": "http://localhost:8080/build/app.js",
+  "build/account.css": "http://localhost:8080/build/account.css",
+  "build/account.js": "http://localhost:8080/build/account.js",
+  "build/game.css": "http://localhost:8080/build/game.css",
+  "build/game.js": "http://localhost:8080/build/game.js",
+  "build/runtime.js": "http://localhost:8080/build/runtime.js",
+  "build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-857c62.js": "http://localhost:8080/build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-857c62.js",
+  "build/vendors-node_modules_core-js_modules_es_array_concat_js-node_modules_core-js_modules_es_array-0c3e02.js": "http://localhost:8080/build/vendors-node_modules_core-js_modules_es_array_concat_js-node_modules_core-js_modules_es_array-0c3e02.js",
+  "build/images/rpgawesome-webfont.svg?v=0.1.0": "http://localhost:8080/build/images/rpgawesome-webfont.4f724738.svg",
+  "build/images/white.jpg": "http://localhost:8080/build/images/white.05375698.jpg",
+  "build/fonts/rpgawesome-webfont.eot": "http://localhost:8080/build/fonts/rpgawesome-webfont.1f1819e8.eot",
+  "build/fonts/rpgawesome-webfont.woff?v=0.1.0": "http://localhost:8080/build/fonts/rpgawesome-webfont.5ddfbfc5.woff",
+  "build/fonts/rpgawesome-webfont.ttf?v=0.1.0": "http://localhost:8080/build/fonts/rpgawesome-webfont.3887a574.ttf",
+  "build/fonts/allertastencil-regular-webfont.woff": "http://localhost:8080/build/fonts/allertastencil-regular-webfont.a7099db4.woff",
+  "build/fonts/AllertaStencil-Regular.ttf": "http://localhost:8080/build/fonts/AllertaStencil-Regular.8cc527f1.ttf",
+  "build/fonts/allertastencil-regular-webfont.woff2": "http://localhost:8080/build/fonts/allertastencil-regular-webfont.617b620a.woff2",
+  "build/images/icomoon.svg?q7a1t3": "http://localhost:8080/build/images/icomoon.28da4998.svg",
+  "build/fonts/icomoon.eot?q7a1t3": "http://localhost:8080/build/fonts/icomoon.77e69626.eot",
+  "build/fonts/icomoon.woff?q7a1t3": "http://localhost:8080/build/fonts/icomoon.3d9f5ee2.woff",
+  "build/fonts/icomoon.ttf?q7a1t3": "http://localhost:8080/build/fonts/icomoon.4145d683.ttf"
+}

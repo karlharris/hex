@@ -1,0 +1,19 @@
+{% block field_wrapper %}
+    <ul id="grid" class="clear">
+        {% for field in fieldArray %}
+            <li>
+                <div id="{{ field.id }}"
+                     title="{{ field.id }}"
+                     class="hexagon{% if field.isBaseArea %}
+                                        basearea
+                                   {% endif %}
+                                   {% if 'User' == field.owner %}
+                                        allowed
+                                   {% endif %}"
+                     data-owner="{{ field.owner }}"
+                     data-held=""
+                ></div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
