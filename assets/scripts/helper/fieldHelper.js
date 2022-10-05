@@ -1,63 +1,28 @@
 import FieldDetector from '../helper/fieldDetector';
+import RandomHelper from '../helper/randomHelper';
+import Field from "../entities/field";
 
 export default class FieldHelper {
+    mountainIntegers = [];
+    forrestIntegers = [];
+    alreadyOccupied = [];
+
     constructor(element) {
         this.element = element;
-        this.fields = element.querySelectorAll('li .hexagon');
         this.detector = new FieldDetector();
-        // this.alreadyOccupied = [];
-        this.mountainIntegers = this.getRandomIntegers(24, [], 42, 168);
-        this.forrestIntegers = this.getRandomIntegers(24, this.mountainIntegers, 42, 168);
+        this.random = new RandomHelper();
+        this.determineRandomFields();
     }
 
     setEvents(parent) {
         let me = this;
-        let counter = 0;
-        this.fields.forEach(function (field) {
-            if (me.mountainIntegers.includes(counter)) {
-                me.setSpecialField(field, 'ra-mountains', '#cd845d', 'Mountains');
-            }
-            if (me.forrestIntegers.includes(counter)) {
-                me.setSpecialField(field, 'ra-pine-tree', '#7dcd5d', 'Forrest');
-            }
+        let fields = this.element.querySelectorAll('li .hexagon');
+        let counter = 1;
+        fields.forEach(function (field) {
+            field = new Field(field.id);
+            field.bindEvents(me, parent);
+            me.setRandomFields(me, field, counter);
             counter++;
-            /** field click event */
-            field.addEventListener('click', function () {
-                /** deselect on click again */
-                if (this.classList.contains('active')) {
-                    me.resetActive();
-                    parent.hideInfo(parent);
-                    parent.hideActions(parent);
-                } else {
-                    me.resetActive();
-                    this.classList.add('active');
-                    parent.showActions(parent);
-                    parent.showInfo(parent);
-                    parent.infoIdElement.innerText = this.id;
-                    parent.infoOwnerElement.innerText = this.dataset.owner;
-                }
-            });
-            /** drag & drop events */
-            field.addEventListener('dragenter', function (event) {
-                this.classList.add('drag-over');
-                me.highlightFields(me.detector.getAllLines(this.id, 4));
-            });
-            field.addEventListener('dragleave', function (event) {
-                this.classList.remove('drag-over');
-                me.highlightFields(me.detector.getAllLines(this.id, 4), true);
-            });
-            field.addEventListener('dragover', function (event) {
-                event.preventDefault();
-            });
-            field.addEventListener('drop', function (event) {
-                this.classList.remove('drag-over');
-                me.highlightFields(me.detector.getAllLines(this.id, 4), true);
-                if (this.classList.contains('allowed') && null !== parent.dragSrcEl) {
-                    this.innerHTML = event.dataTransfer.getData('text/html');
-                    parent.dragSrcEl = null;
-                }
-                return false;
-            });
         });
     }
 
@@ -67,46 +32,104 @@ export default class FieldHelper {
         return i;
     }
 
-    setSpecialField(field, iconClass, color, ownerExtension = null) {
-        field.append(this.getIconHtml(iconClass));
-        if (null !== ownerExtension) {
-            field.dataset.owner = field.dataset.owner + ' | ' + ownerExtension;
+    determineRandomFields() {
+        if (undefined !== this.element.dataset.mountain) {
+            this.mountainIntegers = this.random.getRandomIntegers(
+                this.element.dataset.mountain,
+                this.alreadyOccupied,
+                43,
+                168
+            );
         }
-        field.style.background = color;
+        if (undefined !== this.element.dataset.forrest) {
+            this.forrestIntegers = this.random.getRandomIntegers(
+                this.element.dataset.forrest,
+                this.alreadyOccupied,
+                43,
+                168
+            );
+        }
     }
 
-    highlightFields(fields, remove = false) {
-        fields.forEach((value) => {
-            if (null !== value) {
-                if (!remove) {
-                    document.getElementById(value).classList.add('attack-highlight');
-                } else {
-                    document.getElementById(value).classList.remove('attack-highlight');
-                }
+    setRandomFields(me, field, counter) {
+        if (me.mountainIntegers.includes(counter)) {
+            me.enrichField(field, 'ra-mountains', 'mountain', 'Mountains');
+        }
+        if (me.forrestIntegers.includes(counter)) {
+            me.enrichField(field, 'ra-pine-tree', 'forrest', 'Forrest');
+        }
+    }
+
+    enrichField(field, iconClass, color, ownerExtension = null) {
+        field.element.append(this.getIconHtml(iconClass));
+        if (null !== ownerExtension) {
+            field.element.dataset.owner = field.element.dataset.owner + ' | ' + ownerExtension;
+        }
+        field.element.classList.add(color);
+    }
+
+    highlightAttackRange(unit, remove = false) {
+        if (undefined !== unit && null !== unit) {
+            switch (unit.type) {
+                case 'melee':
+                case 'ranged':
+                    this.highlightFields(this.detector.getAllLines(unit.locationId, unit.effectWidth), remove);
+                    break;
+                case 'aoe':
+                    this.highlightFields(this.detector.getPerimeter(unit.locationId, unit.effectWidth), remove);
+                    break;
+            }
+        }
+    }
+
+    highlightMovementRange(unit, remove = false) {
+        if (undefined !== unit && null !== unit) {
+            this.highlightFields(this.detector.getPerimeter(unit.locationId, unit.movementWidth), remove, 'movement');
+        }
+    }
+
+    highlightFields(fields, remove = false, classPrefix = 'attack') {
+        fields.forEach((field) => {
+            if (!remove) {
+                field.element.classList.add(classPrefix + '-highlight');
+            } else {
+                field.element.classList.remove(classPrefix + '-highlight');
             }
         });
     }
 
-    resetActive() {
+    getActiveField() {
         let active = this.element.getElementsByClassName('active');
         if (active.length) {
-            active[0].classList.remove('active');
+            return active[0];
         }
+        return null;
     }
 
-    getRandomIntegers(amount = 12, excludes = [], min = 0, max = 210) {
-        let integers = [];
-        for (let i = 0; i <= amount; i++) {
-            integers.push(this.generateRandomBetween(min, max, excludes));
+    getActiveUnit(game, id = null) {
+        if (null !== id) {
+            return game.getUnitById(id);
         }
-        return integers;
+        let active = this.getActiveField();
+        if (null !== active && '' !== active.dataset.held) {
+            return game.getUnitById(active.dataset.held);
+        }
+        return null;
     }
 
-    generateRandomBetween(min, max, excludes) {
-        let randomInteger = Math.floor(Math.random() * (max - min)) + min;
-        if (excludes.includes(randomInteger)) {
-            randomInteger = this.generateRandomBetween(min, max, excludes);
+    resetActive(game) {
+        let active = this.getActiveField();
+        if (null !== active) {
+            active.classList.remove('active');
+            this.highlightMovementRange(this.getActiveUnit(game, active.dataset.held), true);
         }
-        return randomInteger;
+        game.hideInfo(game);
+    }
+
+    cleanField(id) {
+        let element = this.element.getElementById(id);
+        element.dataset.held = '';
+        element.dataset.health = '';
+        element.dataset.currenthealth = '';
     }
 }

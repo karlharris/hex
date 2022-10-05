@@ -1,7 +1,4 @@
 export default class Modal {
-    modal = null;
-    overlay = null;
-
     defaults = {
         modalWrapperId: 'modal-wrapper',
         modalId: 'modal',
@@ -15,6 +12,9 @@ export default class Modal {
         closeBtnCls: 'close',
         closeBtnIconCls: 'icon-cross',
     }
+    modal = null;
+    overlay = null;
+    options = {}
 
     constructor(options = {}) {
         this.options = {...this.defaults, ...options};
@@ -24,7 +24,7 @@ export default class Modal {
     }
 
     open() {
-        this.resetModal();
+        this.removeModal();
         if (true === this.options.overlay) {
             this.overlay = this.createBaseOverlay();
             document.body.append(this.overlay);
@@ -41,18 +41,18 @@ export default class Modal {
         /** close modal on click on the overlay if exists */
         if (true === me.options.overlay || true === me.options.closeOnOverlay) {
             me.overlay.addEventListener('click', function () {
-                me.resetModal();
+                me.removeModal();
             });
         }
         /** close on click on close-button */
         me.modal.querySelector(
             '.' + this.options.closeBtnCls + '.' + this.options.closeBtnIconCls
         ).addEventListener('click', function () {
-            me.resetModal();
+            me.removeModal();
         });
     }
 
-    resetModal() {
+    removeModal() {
         if (null !== this.modal) {
             this.modal.remove();
         }
@@ -92,20 +92,20 @@ export default class Modal {
     }
 
     addTitle() {
-        let title = document.createElement('div');
-        title.id = 'title';
         if (null !== this.options.title) {
+            let title = document.createElement('div');
             title.innerHTML = this.options.title;
+            title.id = 'title';
+            this.modal.append(title);
         }
-        this.modal.append(title);
     }
 
     addContent() {
-        let content = document.createElement('div');
-        content.id = 'content';
         if (null !== this.options.content) {
+            let content = document.createElement('div');
+            content.id = 'content';
             content.innerHTML = this.options.content;
+            this.modal.append(content);
         }
-        this.modal.append(content);
     }
 }

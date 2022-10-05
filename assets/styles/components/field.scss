@@ -38,6 +38,9 @@
       &.basearea {
         background: #aaa;
       }
+      &.forrest {
+        background: #7dcd5d !important;
+      }
       &.drag-over {
         background: #e38080;
       }
@@ -45,7 +48,18 @@
         background: #90e27f;
       }
       &.attack-highlight {
-        background: #f6eb44 !important;
+        background: #e74c4c !important;
+      }
+      &.movement-highlight {
+        background: #64a8ff !important;
+      }
+      &.attack-highlight.movement-highlight {
+        &:not(.mountain) {
+          background: #e38080 !important;
+        }
+      }
+      &.mountain {
+        background: #cd845d !important;
       }
     }
     span {

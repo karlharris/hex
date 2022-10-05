@@ -2,33 +2,30 @@
   "entrypoints": {
     "app": {
       "js": [
-        "http://localhost:8080/build/runtime.js",
-        "http://localhost:8080/build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-857c62.js",
-        "http://localhost:8080/build/app.js"
+        "/build/runtime.9634bf38.js",
+        "/build/app.aa1bf742.js"
       ],
       "css": [
-        "http://localhost:8080/build/app.css"
+        "/build/app.c1398fc6.css"
       ]
     },
     "account": {
       "js": [
-        "http://localhost:8080/build/runtime.js",
-        "http://localhost:8080/build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-857c62.js",
-        "http://localhost:8080/build/account.js"
+        "/build/runtime.9634bf38.js",
+        "/build/account.7009aab3.js"
       ],
       "css": [
-        "http://localhost:8080/build/account.css"
+        "/build/account.c1398fc6.css"
       ]
     },
     "game": {
       "js": [
-        "http://localhost:8080/build/runtime.js",
-        "http://localhost:8080/build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-857c62.js",
-        "http://localhost:8080/build/vendors-node_modules_core-js_modules_es_array_concat_js-node_modules_core-js_modules_es_array-0c3e02.js",
-        "http://localhost:8080/build/game.js"
+        "/build/runtime.9634bf38.js",
+        "/build/247.b4e63cf9.js",
+        "/build/game.4a561532.js"
       ],
       "css": [
-        "http://localhost:8080/build/game.css"
+        "/build/game.e4f726e0.css"
       ]
     }
   }

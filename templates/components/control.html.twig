@@ -1,17 +1,34 @@
-<div id="field-info" style="display: none">
-    <p id="field-info-id"></p>
-    <p id="field-info-owner"></p>
+<div id="field-actions">
+    <div class="units">
+        {% for unit in unitArray %}
+            <div draggable="true" class="action-type unit"
+                 data-title="{{ unit.title }}"
+                 data-content="{{ unit.description }}"
+                 data-type="{{ unit.type }}"
+                 data-effectwidth="{{ unit.effectWidth }}"
+                 data-movementwidth="{{ unit.movementWidth }}"
+                 data-health="{{ unit.health }}"
+                 data-currenthealth="{{ unit.health }}"
+                 data-basedamage="{{ unit.baseDamage }}"
+                 data-attackpoints="{{ unit.attackPoints }}"
+                 data-movepoints="{{ unit.movePoints }}"
+                 data-hybridpoints="{{ unit.hybridPoints }}"
+            ><i class="{{ unit.icon }}"></i></div>
+        {% endfor %}
+    </div>
 </div>
-<div id="field-actions" style="display: none">
-    <div draggable="true" class="action-type"
-         data-title="Soldier"
-         data-content="The Soldier is capable of protecting all surrounding fields."
-    ><i class="ra ra-sword"></i></div>
-    <div draggable="true" class="action-type"
-         data-title="Axeman"
-         data-content="The Axeman is capable of attacking all surrounding fields."
-    ><i class="ra ra-axe"></i></div>
-    <div draggable="true" class="action-type"
-         data-content="The Crossbowman is capable of attacking three fields in a row."
-    ><i class="ra ra-crossbow"></i></div>
+<div id="field-info" style="display: none">
+    <div id="general">
+        <p id="field-info-id"></p>
+        <p id="field-info-owner"></p>
+    </div>
+    <div id="unit">
+        <div id="held">
+            <p id="field-info-held"></p>
+        </div>
+        <div id="health" style="display: none">
+            <div id="current-health-info"></div>
+            <div id="current-health-percent"></div>
+        </div>
+    </div>
 </div>

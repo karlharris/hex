@@ -53,28 +53,51 @@ nav {
       color: #eee;
     }
   }
+  #health {
+    width: 50%;
+    padding: 5px;
+    height: 20px;
+    border: 1px solid #eee;
+    margin: 20px auto;
+    position: relative;
+    #current-health-info {
+      position: absolute;
+      margin-left: 5px;
+      color: #eee;
+    }
+    #current-health-percent {
+      height: 20px;
+      background: #db1818;
+      width: 100%;
+    }
+  }
 }
 /** current field actions styling */
 div#field-actions {
   max-width: 300px;
   margin: 50px auto 0 auto;
-  .action-type {
-    background: #eee;
-    width: 50px;
-    height: 50px;
-    font-size: 30px;
-    position: relative;
-    border-radius: 30px;
-    box-shadow: 0 0 7px #aaa;
-    color: #282828;
-    transition: all .5s ease 0s;
-    float: left;
-    margin-left: 15px;
-    &:hover {
-      cursor: move;
-      background: #282828;
-      color: #eee;
-      box-shadow: 0 0 7px #838383;
+  height: 50px;
+  .units {
+    width: 100%;
+    height: 100%;
+    .action-type {
+      background: #eee;
+      width: 50px;
+      height: 50px;
+      font-size: 30px;
+      position: relative;
+      border-radius: 30px;
+      box-shadow: 0 0 7px #aaa;
+      color: #282828;
+      transition: all .5s ease 0s;
+      float: left;
+      margin-left: 15px;
+      &:hover {
+        cursor: move;
+        background: #282828;
+        color: #eee;
+        box-shadow: 0 0 7px #838383;
+      }
     }
   }
 }

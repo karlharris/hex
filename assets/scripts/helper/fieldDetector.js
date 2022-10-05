@@ -1,3 +1,5 @@
+import Field from "../entities/field";
+
 export default class FieldDetector {
     charMap = {
         'A': '1',
@@ -53,9 +55,9 @@ export default class FieldDetector {
         if ('14' === this.parts[1] && this.isEvenRow) {
             return null;
         }
-        return this.numberMap[parseInt(this.currentCharKey) - 1]
+        return new Field(this.numberMap[parseInt(this.currentCharKey) - 1]
             + '-'
-            + (this.isEvenRow ? (parseInt(this.parts[1]) + 1) : this.parts[1]).toString();
+            + (this.isEvenRow ? (parseInt(this.parts[1]) + 1) : this.parts[1]).toString());
     }
     getRight(id = null) {
         this.checkContext(id);
@@ -63,7 +65,7 @@ export default class FieldDetector {
         if ('14' === this.parts[1]) {
             return null;
         }
-        return this.parts[0] + '-' + (parseInt(this.parts[1]) + 1).toString();
+        return new Field(this.parts[0] + '-' + (parseInt(this.parts[1]) + 1).toString());
     }
     getBottomRight(id = null) {
         this.checkContext(id);
@@ -75,9 +77,9 @@ export default class FieldDetector {
         if ('14' === this.parts[1] && this.isEvenRow) {
             return null;
         }
-        return this.numberMap[parseInt(this.currentCharKey) + 1]
+        return new Field(this.numberMap[parseInt(this.currentCharKey) + 1]
             + '-'
-            + (this.isEvenRow ? (parseInt(this.parts[1]) + 1) : this.parts[1]).toString();
+            + (this.isEvenRow ? (parseInt(this.parts[1]) + 1) : this.parts[1]).toString());
     }
     getBottomLeft(id = null) {
         this.checkContext(id);
@@ -89,9 +91,9 @@ export default class FieldDetector {
         if ('1' === this.parts[1] && !this.isEvenRow) {
             return null;
         }
-        return this.numberMap[parseInt(this.currentCharKey) + 1]
+        return new Field(this.numberMap[parseInt(this.currentCharKey) + 1]
             + '-'
-            + (this.isEvenRow ? this.parts[1].toString() : (parseInt(this.parts[1]) - 1));
+            + (this.isEvenRow ? this.parts[1].toString() : (parseInt(this.parts[1]) - 1)));
     }
     getLeft(id = null) {
         this.checkContext(id);
@@ -99,7 +101,7 @@ export default class FieldDetector {
         if ('1' === this.parts[1]) {
             return null;
         }
-        return this.parts[0] + '-' + (parseInt(this.parts[1]) - 1).toString();
+        return new Field(this.parts[0] + '-' + (parseInt(this.parts[1]) - 1).toString());
     }
     getUpperLeft(id = null) {
         this.checkContext(id);
@@ -111,52 +113,63 @@ export default class FieldDetector {
         if ('1' === this.parts[1] && !this.isEvenRow) {
             return null;
         }
-        return this.numberMap[parseInt(this.currentCharKey) - 1]
+        return new Field(this.numberMap[parseInt(this.currentCharKey) - 1]
             + '-'
-            + (this.isEvenRow ? this.parts[1].toString() : (parseInt(this.parts[1]) - 1));
+            + (this.isEvenRow ? this.parts[1].toString() : (parseInt(this.parts[1]) - 1)));
     }
-    getSurroundingFields(id = null) {
+    getSurroundingFields(id = null, excludes = []) {
         this.checkContext(id);
-        return [
+        let result = [];
+        [
             this.getUpperRight(),
             this.getRight(),
             this.getBottomRight(),
             this.getBottomLeft(),
             this.getLeft(),
             this.getUpperLeft(),
-        ];
+        ].forEach((field) => {
+            if (null !== field && !excludes.some(tempField => tempField.id === field.id)) {
+                result.push(field);
+            }
+        });
+        return result;
     }
     getLine(id, direction, length = 2) {
         let result = [];
         let currentId = id;
+        let currentElement = null;
         for (let i = 0; i < length; i++) {
             switch (direction) {
                 case 'ur':
                 case 'upperRight':
-                    currentId = this.getUpperRight(currentId);
+                    currentElement = this.getUpperRight(currentId);
                     break;
                 case 'r':
                 case 'right':
-                    currentId = this.getRight(currentId);
+                    currentElement = this.getRight(currentId);
                     break;
                 case 'br':
                 case 'bottomRight':
-                    currentId = this.getBottomRight(currentId);
+                    currentElement = this.getBottomRight(currentId);
                     break;
                 case 'bl':
                 case 'bottomLeft':
-                    currentId = this.getBottomLeft(currentId);
+                    currentElement = this.getBottomLeft(currentId);
                     break;
                 case 'l':
                 case 'left':
-                    currentId = this.getLeft(currentId);
+                    currentElement = this.getLeft(currentId);
                     break;
                 case 'ul':
                 case 'upperLeft':
-                    currentId = this.getUpperLeft(currentId);
+                    currentElement = this.getUpperLeft(currentId);
                     break;
             }
-            result.push(currentId);
+            if (null === currentElement) {
+                break;
+            }
+            currentId = currentElement.id;
+            result.push(currentElement);
         }
         return result;
     }
@@ -165,6 +178,27 @@ export default class FieldDetector {
         ['ur','r','br','bl','l','ul'].forEach((direction) => {
             result = [...result, ...this.getLine(id, direction, length)];
         });
+        return result;
+    }
+    getPerimeter(id, levels = 1) {
+        if (1 === levels) {
+            return this.getSurroundingFields(id);
+        }
+        let origin = [new Field(id)];
+        let result = [];
+        let currentLvl = this.getSurroundingFields(id, result);
+        for (let i = 1; i < levels; i++) {
+            currentLvl.forEach((currentLvlField) => {
+                result = [
+                    ...result,
+                    ...this.getSurroundingFields(
+                        currentLvlField.id,
+                        i === 1 ? origin : origin.concat(result)
+                    )
+                ];
+            });
+            currentLvl = result;
+        }
         return result;
     }
 }
